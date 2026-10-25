@@ -119,6 +119,9 @@ namespace hooks
 
 	static inline void Install()
 	{
+		// One allocation for all hooks (NG only honours the first AllocTrampoline call).
+		SKSE::AllocTrampoline(2048);
+
 #if AMR_PHYSICS_HOOKS
 		bhkCharacterStateOnGround::SimulateStatePhysics = bhkCharacterStateOnGround::vTable.write_vfunc(8, SimulateStatePhysics);
 

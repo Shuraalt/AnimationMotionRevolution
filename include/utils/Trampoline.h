@@ -37,15 +37,15 @@ namespace utils
 	template <std::size_t N>
 	static constexpr void AllocExactSizeTrampoline(Xbyak::CodeGenerator& a_hookCode)
 	{
+		// CommonLibSSE-NG creates the trampoline only once, from the first AllocTrampoline() call,
+		// so the whole pool is requested up-front in hooks::Install() instead.
 		a_hookCode.ready();
-
-		SKSE::AllocTrampoline(GetTrampolineBaseSize<N>() + a_hookCode.getSize());
 	}
 
 	template <std::size_t N>
 	static constexpr void AllocExactSizeTrampoline()
 	{
-		SKSE::AllocTrampoline(GetTrampolineBaseSize<N>());
+		// See above: the pool is allocated once in hooks::Install().
 	}
 
 	template <std::size_t N>
