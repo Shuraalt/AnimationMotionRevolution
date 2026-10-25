@@ -2,7 +2,9 @@
 
 #include "utils/Trampoline.h"
 
+#if AMR_PHYSICS_HOOKS
 #include "RE/B/bhkCharacterMoveInfo.h"
+#endif
 #include "RE/B/BShkbAnimationGraph.h"
 #include "RE/H/hkbClipGenerator.h"
 #include "RE/H/hkbContext.h"
@@ -84,6 +86,7 @@ namespace hooks
 		static inline REL::Relocation<std::uintptr_t> ProcessMotionData{ ProcessMotionDataId };
 	};
 
+#if AMR_PHYSICS_HOOKS
 	class bhkCharacterStateOnGround
 	{
 	public:
@@ -112,8 +115,11 @@ namespace hooks
 
 	void SimulateStatePhysics(RE::bhkCharacterStateOnGround* a_this, RE::bhkCharacterController* a_characterController);
 
+#endif
+
 	static inline void Install()
 	{
+#if AMR_PHYSICS_HOOKS
 		bhkCharacterStateOnGround::SimulateStatePhysics = bhkCharacterStateOnGround::vTable.write_vfunc(8, SimulateStatePhysics);
 
 		// bhkCharacterController::UpdateStateAndMovement
@@ -125,6 +131,7 @@ namespace hooks
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#endif
 
 		// My guess is that Bethesda used compiled Havok libraries, that is why neither registers 
 		// nor offsets changed between SE-AE for the hkbClipGenerator hooks

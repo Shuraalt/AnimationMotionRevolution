@@ -4,10 +4,12 @@
 
 #include "utils/Logger.h"
 
+#if AMR_PHYSICS_HOOKS
 #include "RE/H/hkpCharacterMovementUtil.h"
 #include "RE/H/hkVector4.h"
 
 #include "RE/RTTI.h"
+#endif
 
 namespace hooks
 {
@@ -257,10 +259,12 @@ namespace hooks
 
 					a_translation = (curSegTranslation * segProgress + prevSegTranslation * (1.0f - segProgress));
 
+#if AMR_PHYSICS_HOOKS
 					auto charController = a_character->GetCharController();
 					auto charStateOnGround = reinterpret_cast<RE::bhkCharacterStateOnGround*>(charController->context.stateManager->registeredState[RE::hkpCharacterStateType::kOnGround]);
 
 					charStateOnGround->unk10 = a_translation.z == 0.0;
+#endif
 
 
 					return;
@@ -349,6 +353,7 @@ namespace hooks
 		a_rotation = RE::NiQuaternion{ 1.0f, 0.0f, 0.0f, 0.0f };
 	}
 
+#if AMR_PHYSICS_HOOKS
 	RE::hkpCharacterStateType hkpCharacterContext::GetCharacterState_Hook(RE::hkpCharacterContext* a_this)
 	{
 		auto charStateOnGround = reinterpret_cast<RE::bhkCharacterStateOnGround*>(a_this->stateManager->registeredState[RE::hkpCharacterStateType::kOnGround]);
@@ -453,4 +458,5 @@ namespace hooks
 			characterState->SimulateStatePhysics(a_characterController);
 		}
 	}
+#endif
 }

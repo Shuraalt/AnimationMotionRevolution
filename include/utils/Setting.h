@@ -55,7 +55,7 @@ namespace utils
 				} 
 				else if constexpr (std::is_same_v<T, int>) 
 				{
-					if (GetType() == Type::kSignedInteger) 
+					if (GetType() == Type::kInteger) 
 					{
 						data.i = a_data;
 
